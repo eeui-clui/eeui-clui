@@ -1,0 +1,35 @@
+{
+  "name": "eeui-clui",
+  "version": "1.0.0",
+  "description": "基础eeui的组件库, clui",
+  "main": "index.js",
+  "scripts": {
+    "lib": "vue-cli-service build --target lib --name hzsj-components --dest lib index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xztl/eeui-clui.git"
+  },
+  "keywords": [
+    "eeui",
+    "clui",
+    "eeui-clui",
+    "vue",
+    "weex",
+    "weex-ui",
+    "amui",
+    "weex-amui"
+  ],
+  "author": "ChesterLee",
+  "private": false,
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xztl/eeui-clui/issues"
+  },
+  "homepage": "https://github.com/xztl/eeui-clui#readme",
+  "files": [
+    "packages",
+    "index.js"
+  ]
+}
