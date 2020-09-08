@@ -108,7 +108,7 @@ export default {
 	},
 	methods: {
 		getIconMap() {
-			storage.getItem(this.fontFamily + "Map", (event) => {
+			storage.getItem(this.fontSrc + "_Map", (event) => {
 				var iconMap = {};
 				if (event.result == "success") {
 					iconMap = JSON.parse(event.data);
@@ -141,7 +141,7 @@ export default {
 									}
 									this.iconMap = iconMap;
 									storage.setItem(
-										this.fontFamily + "Map",
+										this.fontSrc + "_Map",
 										JSON.stringify(iconMap),
 										(event) => {}
 									);
@@ -157,7 +157,7 @@ export default {
 						}
 						this.iconMap = iconMap;
 						storage.setItem(
-							this.fontFamily + "Map",
+							this.fontSrc + "_Map",
 							JSON.stringify(iconMap),
 							(event) => {}
 						);
