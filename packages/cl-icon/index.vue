@@ -27,7 +27,7 @@
 const dom = weex.requireModule("dom");
 let platform = weex.config.env.platform.toLowerCase();
 const stream = weex.requireModule("stream") || {};
-const storage = weex.requireModule("storage");
+const eeui = app.requireModule('eeui');
 export default {
 	name:"cl-icon",
 	props: {
@@ -108,62 +108,53 @@ export default {
 	},
 	methods: {
 		getIconMap() {
-			storage.getItem(this.fontSrc + "_Map", (event) => {
-				var iconMap = {};
-				if (event.result == "success") {
-					iconMap = JSON.parse(event.data);
-					this.iconMap = iconMap;
-				} else {
-					if (this.loadRemote) {
-						var url = this.fontSrc.replace(".ttf", ".json");
-						stream.fetch(
-							{
-								method: "GET",
-								url: url,
-								type: "json",
-							},
-							(ret) => {
-								if (ret.ok) {
-									const iconfont = ret.data;
-									for (
-										var i = 0;
-										i < iconfont.glyphs.length;
-										i++
-									) {
-										iconMap[
-											iconfont.glyphs[i].font_class
-										] = eval(
-											"'" +
-												"\\u" +
-												iconfont.glyphs[i].unicode +
-												"'"
-										);
-									}
-									this.iconMap = iconMap;
-									storage.setItem(
-										this.fontSrc + "_Map",
-										JSON.stringify(iconMap),
-										(event) => {}
+			var iconMap = {};
+			let data = eeui.getVariate(this.fontSrc + "_Map", '');
+			if (data != '') {
+				iconMap = JSON.parse(data);
+				this.iconMap = iconMap;
+			} else {
+				if (this.loadRemote) {
+					var url = this.fontSrc.replace(".ttf", ".json");
+					stream.fetch(
+						{
+							method: "GET",
+							url: url,
+							type: "json",
+						},
+						(ret) => {
+							if (ret.ok) {
+								const iconfont = ret.data;
+								for (
+									var i = 0;
+									i < iconfont.glyphs.length;
+									i++
+								) {
+									iconMap[
+										iconfont.glyphs[i].font_class
+									] = eval(
+										"'" +
+											"\\u" +
+											iconfont.glyphs[i].unicode +
+											"'"
 									);
 								}
+								this.iconMap = iconMap;
+								eeui.setVariate(this.fontSrc + "_Map", JSON.stringify(iconMap))
 							}
-						);
-					} else {
-						const iconfont = this.iconfontJson;
-						for (var i = 0; i < iconfont.glyphs.length; i++) {
-							iconMap[iconfont.glyphs[i].font_class] = eval(
-								"'" + "\\u" + iconfont.glyphs[i].unicode + "'"
-							);
 						}
-						this.iconMap = iconMap;
-						storage.setItem(
-							this.fontSrc + "_Map",
-							JSON.stringify(iconMap),
-							(event) => {}
+					);
+				} else {
+					const iconfont = this.iconfontJson;
+					for (var i = 0; i < iconfont.glyphs.length; i++) {
+						iconMap[iconfont.glyphs[i].font_class] = eval(
+							"'" + "\\u" + iconfont.glyphs[i].unicode + "'"
 						);
 					}
+					this.iconMap = iconMap;
+					eeui.setVariate(this.fontSrc + "_Map", JSON.stringify(iconMap))
 				}
-			});
+			}
 		},
 	},
 };
